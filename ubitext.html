@@ -1,0 +1,24 @@
+<head>
+  <title>ubitext</title>
+</head>
+
+<body>
+  <h1>Welcome to ubitext!</h1>
+
+  <div class="container">
+    <div class="editor">
+      {{> editor}}
+    </div>
+    <div class="preview">
+      <iframe id="viewer_iframe" class="preview-frame" height="100%" width="100%"></iframe>
+    </div>    
+  </div>
+</body>
+
+<template name="editor">
+  {{> sharejsCM docid=docid onRender=config id="editor"}}
+</template>
+
+
+
+
