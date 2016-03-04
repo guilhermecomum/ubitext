@@ -1,0 +1,50 @@
+@import {wolves:bourbon}/bourbon
+
+
+
+body
+  padding-top: 60px
+  font-family: Cantarell
+
+.navbar
+  position: fixed
+  height: 50px
+  width: 100%
+  top: 0
+  left: 0
+  right: 0
+  z-index: 9999
+  padding: 0 10px;
+  @include display(flex)
+  @include justify-content(space-around)
+  @include align-items(center)
+  background: #2c3e50
+  color: #ecf0f1
+
+  .logo
+    margin: 0
+    padding: 0
+    font-weight: 100
+
+.container
+  @include display(flex)
+
+.editor, .preview
+  width: 100%
+
+  margin: 0 10px
+  max-width: 50%
+  position: relative
+
+.editor
+  padding: 10px
+
+.preview
+  border: 1px solid #ccc
+  .preview-frame
+    position: absolute
+    top: 0px
+    bottom: 0px
+    right: 0px
+    left: 0px
+    border: 0

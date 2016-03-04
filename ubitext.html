@@ -3,7 +3,8 @@
 </head>
 
 <body>
-  <h1>Welcome to ubitext!</h1>
+
+  {{> navbar}}
 
   <div class="container">
     <div class="editor">
@@ -11,14 +12,21 @@
     </div>
     <div class="preview">
       <iframe id="viewer_iframe" class="preview-frame" height="100%" width="100%"></iframe>
-    </div>    
+    </div>
   </div>
+
 </body>
+
+<template name="navbar">
+  <nav class="navbar">
+    <h1 class="logo">Welcome to ubitext!</h1>
+    <div class="logins">
+      {{> loginButtons align="right"}}
+    </div>
+
+  </nav>
+</template>
 
 <template name="editor">
   {{> sharejsCM docid=docid onRender=config id="editor"}}
 </template>
-
-
-
-
