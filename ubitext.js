@@ -22,9 +22,30 @@ if (Meteor.isClient) {
           $("#viewer_iframe").contents().find("html").html(cm_editor.getValue());
           Meteor.call("addEditingUser");
         });
-      }
+      };
     }
   });
+
+  Template.editingUsers.helpers({
+    users: function() {
+      var doc, eusers, users;
+      doc = Documents.findOne();
+      if(!doc) {return;}
+      eusers = EditingUsers.findOne({docid: doc._id});
+      if(!eusers){return;}
+
+      users = new Array();
+      var i = 0;
+
+      // ToDo: Refactor with for each
+      for (var user_id in eusers.users) {
+        users[i] = fixObjectKeys(eusers.users[user_id]);
+        i++;
+      }
+      return users;
+    }
+  });
+
 }
 
 if (Meteor.isServer) {
@@ -40,6 +61,7 @@ if (Meteor.isServer) {
 Meteor.methods({
   addEditingUser: function() {
     var doc, user, eusers;
+    doc = Documents.findOne();
     if(!doc) {return;} // give up
     if(!this.userId){return;} // no user logged
 
@@ -48,8 +70,21 @@ Meteor.methods({
     if(!eusers){
       eusers = {
         docid: doc._id,
+        users: {}
       };
     }
-    EditingUsers.insert({eusers});
+    user.lastEdit = new Date();
+    eusers.users[this.userId] = user;
+
+    EditingUsers.upsert({_id: eusers._id}, eusers);
   }
 });
+
+function fixObjectKeys(obj){
+  var newObj = {};
+  for (key in obj){
+    var key2 = key.replace("-", "");
+    newObj[key2] = obj[key];
+  }
+  return newObj;
+}

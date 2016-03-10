@@ -22,4 +22,5 @@ wolves:bourbon
 fourseven:scss
 fortawesome:fontawesome
 accounts-password
-accounts-ui
+ian:accounts-ui-bootstrap-3
+twbs:bootstrap
