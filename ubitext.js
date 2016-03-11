@@ -1,8 +1,13 @@
 this.Documents = new Mongo.Collection("documents");
 EditingUsers = new Mongo.Collection("editingUsers");
 
+
+
 if (Meteor.isClient) {
 
+  Accounts.ui.config({
+    passwordSignupFields: 'USERNAME_AND_EMAIL'
+  });
 
   Template.editor.helpers({
     docid: function() {
@@ -40,16 +45,21 @@ if (Meteor.isServer) {
 Meteor.methods({
   addEditingUser: function() {
     var doc, user, eusers;
+    doc = Documents.findOne();
     if(!doc) {return;} // give up
     if(!this.userId){return;} // no user logged
 
-    user = Meteor.user().profile;
-    eusers = EditingUsers.findOne({docid:doc._id});
+    user = Meteor.user();
+    eusers = EditingUsers.findOne({docid: doc._id});
     if(!eusers){
       eusers = {
         docid: doc._id,
+        users: {}
       };
     }
-    EditingUsers.insert({eusers});
+    user.lastEdit = new Date();
+    eusers.users[this.userId] = user;
+
+    EditingUsers.upsert({_id:eusers._id}, eusers);
   }
 });
