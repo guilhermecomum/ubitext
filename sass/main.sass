@@ -15,17 +15,29 @@ body
   right: 0
   z-index: 9999
   padding: 0 $spacing
-  @include display(flex)
-  @include justify-content(space-around)
-  @include align-items(center)
   background: $primary-color-dark
   color: $white
+
+  .menu, .logo
+    display: inline-block
 
   .logo
     margin: 0
     padding: 0
     font-weight: 100
 
+  .menu
+    li
+      list-style: none
+      display: inline-block
+      margin-right: #{$spacing * 1.5}
+      a
+        color: #fff
+        text-decoration: none
+
+  .logins
+    float: right
+    padding: #{$spacing * 1.5} #{$spacing * 3}
 
 .editors
   padding-left: $spacing

@@ -24,6 +24,18 @@
 <template name="navbar">
   <nav class="navbar">
     <h1 class="logo">Welcome to ubitext!</h1>
+    <ul class="menu">
+      <li class="new-document">
+        <a href="#" class="js-add-doc"><i class="fa fa-plus"></i> new document</a>
+      </li>
+      <li>
+        <select class="js-load-doc">
+          {{#each documents}}
+          <option value="{{_id}}">{{title}}</option>
+          {{/each}}
+        </select>
+      </li>
+    </ul>
     <div class="logins">
       {{> loginButtons align="right"}}
     </div>

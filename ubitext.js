@@ -11,14 +11,10 @@ if (Meteor.isClient) {
 
   Template.editor.helpers({
     docid: function() {
-      var doc = Documents.findOne();
-      if (doc) {
-        return doc._id;
-      } else {
-        return undefined;
-      }
-
+      setupCurrentDocument();
+      return Session.get("docid");
     },
+
     config: function() {
       return function(editor) {
         editor.setOption("lineNumbers", true);
@@ -44,13 +40,44 @@ if (Meteor.isClient) {
       users = new Array();
       var i = 0;
       for (var user_id in eusers.users) {
-        console.log(eusers.users[user_id].username);;
         users[i] = eusers.users[user_id];
         i++;
       }
       return users;
     }
   });
+
+  Template.navbar.helpers({
+    documents: function() {
+      return Documents.find({});
+    }
+  });
+
+  ///////
+  // Events
+  ///////
+
+  Template.navbar.events({
+    "click .js-add-doc": function(event) {
+      event.preventDefault();
+      if (!Meteor.user()) {
+        alert("You need to login first!");
+      } else {
+        var id = Meteor.call("addDoc", function(err, res) {
+          if (!err) {
+            Session.set("docid", res);
+          }
+        });
+      }
+    },
+
+    "change .js-load-doc": function(event, template) {
+      var id = template.$(".js-load-doc").val();
+      Session.set("docid", id);
+    }
+
+  });
+
 }
 
 if (Meteor.isServer) {
@@ -64,6 +91,23 @@ if (Meteor.isServer) {
 }
 
 Meteor.methods({
+  addDoc: function() {
+    var doc;
+    if(!this.userId) {
+      return
+    } else {
+      doc = {
+        owner: this.userId,
+        createdOn: new Date(),
+        title: "Untitled"
+      }
+      var id = Documents.insert(doc);
+      console.log("addDoc method: " + id)
+      return id;
+    };
+
+  },
+
   addEditingUser: function() {
     var doc, user, eusers;
     doc = Documents.findOne();
@@ -84,3 +128,13 @@ Meteor.methods({
     EditingUsers.upsert({_id:eusers._id}, eusers);
   }
 });
+
+function setupCurrentDocument() {
+  var doc;
+  if (!Session.get("docid")) {
+    doc = Documents.findOne();
+    if (doc) {
+      Session.set("docid", doc._id);
+    }
+  }
+}
