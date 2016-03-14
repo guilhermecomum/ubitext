@@ -30,6 +30,27 @@ if (Meteor.isClient) {
       }
     }
   });
+
+  Template.editingUsers.helpers({
+    users: function() {
+      var doc, eusers, users;
+
+      doc = Documents.findOne();
+      if (!doc){return}
+
+      eusers = EditingUsers.findOne({docid: doc._id});
+      if (!eusers){return}
+
+      users = new Array();
+      var i = 0;
+      for (var user_id in eusers.users) {
+        console.log(eusers.users[user_id].username);;
+        users[i] = eusers.users[user_id];
+        i++;
+      }
+      return users;
+    }
+  });
 }
 
 if (Meteor.isServer) {

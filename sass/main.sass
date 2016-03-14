@@ -1,5 +1,5 @@
 @import {wolves:bourbon}/bourbon
-
+@import variables
 
 
 body
@@ -14,33 +14,41 @@ body
   left: 0
   right: 0
   z-index: 9999
-  padding: 0 10px;
+  padding: 0 $spacing
   @include display(flex)
   @include justify-content(space-around)
   @include align-items(center)
-  background: #2c3e50
-  color: #ecf0f1
+  background: $primary-color-dark
+  color: $white
 
   .logo
     margin: 0
     padding: 0
     font-weight: 100
 
+
+.editors
+  padding-left: $spacing
+  margin-bottom: $spacing * 2
+  .label
+    color: $white
+    font-size: 12px
+    padding: #{$spacing / 2} $spacing
+    &.success
+       background: $success
+
+
 .container
   @include display(flex)
 
 .editor, .preview
   width: 100%
-
   margin: 0 10px
   max-width: 50%
   position: relative
 
-.editor
-  padding: 10px
-
 .preview
-  border: 1px solid #ccc
+  border: 1px solid $grey
   .preview-frame
     position: absolute
     top: 0px
