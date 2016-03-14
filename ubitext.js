@@ -22,7 +22,7 @@ if (Meteor.isClient) {
     config: function() {
       return function(editor) {
         editor.setOption("lineNumbers", true);
-        editor.setOption("theme", "cobalt");
+        editor.setOption("theme", "material");
         editor.on("change", function(cm_editor, info) {
           $("#viewer_iframe").contents().find("html").html(parseMarkdown(cm_editor.getValue()));
           Meteor.call("addEditingUser");
