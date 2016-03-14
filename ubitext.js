@@ -24,7 +24,7 @@ if (Meteor.isClient) {
         editor.setOption("lineNumbers", true);
         editor.setOption("theme", "cobalt");
         editor.on("change", function(cm_editor, info) {
-          $("#viewer_iframe").contents().find("html").html(cm_editor.getValue());
+          $("#viewer_iframe").contents().find("html").html(parseMarkdown(cm_editor.getValue()));
           Meteor.call("addEditingUser");
         });
       }
