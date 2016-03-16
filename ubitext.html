@@ -54,6 +54,15 @@
 <template name="docMeta">
   {{# with documents}}
   <span class="title">{{> editableText collection="documents" field="title"}}</span>
+
+  {{#if canEdit}}
+  <div class="checkbox">
+      <label for="private">
+          <input name="private" class="js-toggle-private" type="checkbox"> Private?
+      </label>
+  </div>
+  {{/if}}
+
   {{/with}}
 </template>
 

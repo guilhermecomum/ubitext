@@ -1,7 +1,11 @@
 this.Documents = new Mongo.Collection("documents");
 EditingUsers = new Mongo.Collection("editingUsers");
 
+
 if (Meteor.isClient) {
+
+  Meteor.subscribe("documents");
+  Meteor.subscribe("editingUsers");
 
   Accounts.ui.config({
     passwordSignupFields: 'USERNAME_AND_EMAIL'
@@ -10,6 +14,16 @@ if (Meteor.isClient) {
   Template.docMeta.helpers({
     documents: function() {
       return Documents.findOne({_id: Session.get("docid")});
+    },
+    canEdit: function() {
+      var doc;
+      doc = Documents.findOne({_id: Session.get("docid")});
+      if (doc) {
+        if(doc.owner == Meteor.userId()) {
+          return true
+        }
+      }
+      return false;
     }
   });
 
@@ -54,7 +68,7 @@ if (Meteor.isClient) {
 
   Template.navbar.helpers({
     documents: function() {
-      return Documents.find({});
+      return Documents.find();
     }
   });
 
@@ -94,6 +108,13 @@ if (Meteor.isClient) {
 
   });
 
+  Template.docMeta.events({
+    "click .js-toggle-private": function(event) {
+      var doc = {_id: Session.get("docid"), isPrivate: event.target.checked  };
+      Meteor.call("updateDocPrivacy", doc);
+    }
+  });
+
 }
 
 if (Meteor.isServer) {
@@ -102,7 +123,19 @@ if (Meteor.isServer) {
     if (!Documents.findOne()) { // no documents yet!
       Documents.insert({title: "Sample document"});
     }
+  });
 
+  Meteor.publish("documents", function(){
+    return Documents.find({
+      $or: [
+        {isPrivate: false},
+        {owner: this.userId}
+      ]
+    });
+  });
+
+  Meteor.publish("editingUsers", function(){
+    return EditingUsers.find();
   });
 }
 
@@ -142,7 +175,19 @@ Meteor.methods({
     eusers.users[this.userId] = user;
 
     EditingUsers.upsert({_id:eusers._id}, eusers);
+  },
+
+  updateDocPrivacy: function(doc) {
+    console.log("Method: ");
+    console.log(doc);
+    var realDoc = Documents.findOne({_id: doc._id, owner: this.userId});
+    if (realDoc) {
+      realDoc.isPrivate = doc.isPrivate;
+      Documents.update({_id:doc._id}, realDoc);
+    }
+
   }
+
 });
 
 function setupCurrentDocument() {
