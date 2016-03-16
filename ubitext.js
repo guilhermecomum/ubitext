@@ -1,8 +1,6 @@
 this.Documents = new Mongo.Collection("documents");
 EditingUsers = new Mongo.Collection("editingUsers");
 
-
-
 if (Meteor.isClient) {
 
   Accounts.ui.config({
@@ -57,6 +55,17 @@ if (Meteor.isClient) {
   Template.navbar.helpers({
     documents: function() {
       return Documents.find({});
+    }
+  });
+
+  Template.editableText.helpers({
+    userCanEdit: function(doc, Collection) {
+      doc = Documents.findOne({_id: Session.get("docid"), owner: Meteor.userId()});
+      if (doc) {
+        return true;
+      } else {
+        return false;
+      }
     }
   });
 

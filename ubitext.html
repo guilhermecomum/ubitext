@@ -53,7 +53,7 @@
 
 <template name="docMeta">
   {{# with documents}}
-  <span class="title">{{title}}</span>
+  <span class="title">{{> editableText collection="documents" field="title"}}</span>
   {{/with}}
 </template>
 
