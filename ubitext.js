@@ -9,6 +9,13 @@ if (Meteor.isClient) {
     passwordSignupFields: 'USERNAME_AND_EMAIL'
   });
 
+  Template.docMeta.helpers({
+    documents: function() {
+      return Documents.findOne({_id: Session.get("docid")});
+    }
+  });
+
+
   Template.editor.helpers({
     docid: function() {
       setupCurrentDocument();
@@ -23,7 +30,7 @@ if (Meteor.isClient) {
           $("#viewer_iframe").contents().find("html").html(parseMarkdown(cm_editor.getValue()));
           Meteor.call("addEditingUser");
         });
-      }
+      };
     }
   });
 

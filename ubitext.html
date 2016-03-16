@@ -6,6 +6,10 @@
 
   {{> navbar}}
 
+  <div class="docMeta">
+    {{> docMeta}}
+  </div>
+
   <div class="editors">
     {{> editingUsers}}
   </div>
@@ -45,6 +49,12 @@
 
 <template name="editor">
   {{> sharejsCM docid=docid onRender=config id="editor"}}
+</template>
+
+<template name="docMeta">
+  {{# with documents}}
+  <span class="title">{{title}}</span>
+  {{/with}}
 </template>
 
 <template name="editingUsers">
