@@ -1,0 +1,49 @@
+<template name="docItem">
+  <div class="docMeta">
+    {{> docMeta}}
+  </div>
+
+  <div class="editors">
+    {{> editingUsers}}
+  </div>
+
+  <div class="container">
+    <div class="editor">
+      {{> editor}}
+    </div>
+    <div class="preview">
+      <iframe id="viewer_iframe" class="preview-frame" height="100%" width="100%"></iframe>
+    </div>
+  </div>
+
+
+</template>
+
+<template name="docMeta">
+  {{# with documents}}
+  <span class="title">{{> editableText collection="documents" field="title"}}</span>
+
+  {{#if canEdit}}
+  <div class="checkbox">
+    <label for="private">
+      <input name="private" class="js-toggle-private" type="checkbox"> Private?
+    </label>
+  </div>
+  {{/if}}
+
+  {{/with}}
+</template>
+
+<template name="editingUsers">
+  Editors:
+  {{#each users}}
+  <span class="label success">{{username}}</span>
+  {{/each}}
+</template>
+
+<template name="editor">
+  {{> sharejsCM docid=docid onRender=config id="editor"}}
+</template>
+
+
+

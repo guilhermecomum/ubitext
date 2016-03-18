@@ -1,74 +1,10 @@
-<head>
-  <title>ubitext</title>
-</head>
+<template name="ApplicationLayout">
 
-<body>
+  <head>
+    <title>ubitext</title>
+  </head>
 
-  {{> navbar}}
+  {{> yield "header"}}
+  {{> yield "main"}}
 
-  <div class="docMeta">
-    {{> docMeta}}
-  </div>
-
-  <div class="editors">
-    {{> editingUsers}}
-  </div>
-
-  <div class="container">
-    <div class="editor">
-      {{> editor}}
-    </div>
-    <div class="preview">
-      <iframe id="viewer_iframe" class="preview-frame" height="100%" width="100%"></iframe>
-    </div>
-  </div>
-
-</body>
-
-<template name="navbar">
-  <nav class="navbar">
-    <h1 class="logo">Welcome to ubitext!</h1>
-    <ul class="menu">
-      <li class="new-document">
-        <a href="#" class="js-add-doc"><i class="fa fa-plus"></i> new document</a>
-      </li>
-      <li>
-        <select class="js-load-doc">
-          {{#each documents}}
-          <option value="{{_id}}">{{title}}</option>
-          {{/each}}
-        </select>
-      </li>
-    </ul>
-    <div class="logins">
-      {{> loginButtons align="right"}}
-    </div>
-
-  </nav>
-</template>
-
-<template name="editor">
-  {{> sharejsCM docid=docid onRender=config id="editor"}}
-</template>
-
-<template name="docMeta">
-  {{# with documents}}
-  <span class="title">{{> editableText collection="documents" field="title"}}</span>
-
-  {{#if canEdit}}
-  <div class="checkbox">
-      <label for="private">
-          <input name="private" class="js-toggle-private" type="checkbox"> Private?
-      </label>
-  </div>
-  {{/if}}
-
-  {{/with}}
-</template>
-
-<template name="editingUsers">
-  Editors:
-  {{#each users}}
-  <span class="label success">{{username}}</span>
-  {{/each}}
 </template>
