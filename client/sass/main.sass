@@ -1,7 +1,6 @@
 @import {wolves:bourbon}/bourbon
 @import variables
 
-
 body
   padding-top: 60px
   font-family: Cantarell
@@ -76,3 +75,15 @@ body
     right: 0px
     left: 0px
     border: 0
+
+.docList
+  @include display(flex)
+  @include flex-wrap(wrap)
+  @include justify-content(space-around)
+
+  .doc
+    display: block
+    text-align: center
+    border: 1px solid #ccc
+    padding: #{$spacing * 4}
+    width: 30%

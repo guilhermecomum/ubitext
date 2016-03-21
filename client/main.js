@@ -101,6 +101,12 @@ Template.docList.helpers({
   }
 });
 
+Template.insertCommentForm.helpers({
+  docid: function() {
+    return Session.get("docid");
+  }
+});
+
 ///////
 // Events
 ///////
@@ -121,7 +127,7 @@ Template.navbar.events({
 
   "change .js-load-doc": function(event, template) {
     var id = template.$(".js-load-doc").val();
-    Session.set("docid", id);
+    window.location = "/documents/"+id;
   }
 
 });

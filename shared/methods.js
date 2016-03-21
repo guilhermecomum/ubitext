@@ -44,7 +44,16 @@ Meteor.methods({
       realDoc.isPrivate = doc.isPrivate;
       Documents.update({_id:doc._id}, realDoc);
     }
+  },
 
+  addComment: function(comment) {
+    console.log("addComment method runingsj")
+    if (this.userId) { //Have user
+      comment.createOn = new Date();
+      comment.userId = this.userId;
+      return Comments.insert(comment);
+    }
+    return;
   }
 
 });

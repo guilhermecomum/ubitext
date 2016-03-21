@@ -25,3 +25,5 @@ accounts-ui
 themeteorchef:commonmark
 babrahams:editable-text
 iron:router
+aldeed:autoform
+aldeed:collection2

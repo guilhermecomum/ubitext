@@ -12,11 +12,13 @@
       {{> editor}}
     </div>
     <div class="preview">
-      <iframe id="viewer_iframe" class="preview-frame" height="100%" width="100%"></iframe>
+      {{> viewer}}
     </div>
   </div>
 
-
+  <div class="comments-form">
+    {{> insertCommentForm}}
+  </div>
 </template>
 
 <template name="docMeta">
@@ -26,11 +28,10 @@
   {{#if canEdit}}
   <div class="checkbox">
     <label for="private">
-      <input name="private" class="js-toggle-private" type="checkbox"> Private?
+      <input name="private" class="js-toggle-private" type="checkbox" checked="{{isPrivate}}"> Private?
     </label>
   </div>
   {{/if}}
-
   {{/with}}
 </template>
 
@@ -45,5 +46,19 @@
   {{> sharejsCM docid=docid onRender=config id="editor"}}
 </template>
 
+<template name="insertCommentForm">
+  {{# autoForm collection="Comments" id="insertCommentForm" type="method" meteormethod="addComment"}}
+  <fieldset>
+    <legend>Comment</legend>
+    {{> afQuickField name="title"}}
+    {{> afQuickField name="body" value="Write your comment here"}}
+    {{> afQuickField name="docid" value=docid type="hidden"}}
+  </fieldset>
+  <button type="submit" class="submit">Insert</button>
+  {{/autoForm}}
 
+</template>
 
+<template name="viewer">
+  <iframe id="viewer_iframe" class="preview-frame" height="100%" width="100%"></iframe>
+</template>
